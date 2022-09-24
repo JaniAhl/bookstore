@@ -11,17 +11,22 @@ public class Book {
 	private int book_isbn;
 	private float book_price;
 	private int book_year;
+	
+	@ManyToOne
+	@JoinColumn(name = "category_id")
+	private Category category;
 
 	
 	
 	
-	public Book(String book_title, String book_author, int book_isbn, float book_price, int book_year) {
+	public Book(String book_title, String book_author, int book_isbn, float book_price, int book_year, Category category) {
 		super();
 		this.book_title = book_title;
 		this.book_author = book_author;
 		this.book_isbn = book_isbn;
 		this.book_price = book_price;
 		this.book_year = book_year;
+		this.category = category;
 	}
 	
 	public Book() {}
@@ -97,13 +102,25 @@ public class Book {
 	public void setBook_year(int book_year) {
 		this.book_year = book_year;
 	}
+	
+	
+	public Category getCategory() {
+		return category;
+	}
 
-
+	public void setCategory(Category category) {
+		this.category = category;
+	}
 
 	@Override
 	public String toString() {
-		return "Book [book_id=" + book_id + ", book_title=" + book_title + ", book_author=" + book_author
+		if (this.category != null) {
+			return "Book [book_id=" + book_id + ", book_title=" + book_title + ", book_author=" + book_author +
+				", book_isbn=" + book_isbn + ", book_price=" + book_price + ", book_year=" + book_year + "category=" + this.getCategory() + "]";
+		} else {
+			return "Book [book_id=" + book_id + ", book_title=" + book_title + ", book_author=" + book_author
 				+ ", book_isbn=" + book_isbn + ", book_price=" + book_price + ", book_year=" + book_year + "]";
+		}
 	}
 
 
