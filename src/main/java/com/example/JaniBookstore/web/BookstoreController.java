@@ -1,11 +1,14 @@
 package com.example.JaniBookstore.web;
 
+import java.util.Optional;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.JaniBookstore.domain.Book;
 import com.example.JaniBookstore.domain.BookRepository;
@@ -52,6 +55,18 @@ public class BookstoreController {
 	public String deleteBook(@PathVariable("book_id") Long book_id, Model model) {
 		repository.deleteById(book_id);
 		return "redirect:../booklist";
+	}
+	
+	// REST all books 
+	@RequestMapping(value="/books", method = RequestMethod.GET)
+	public @ResponseBody List<Book> bookListRest() {
+		return (List<Book>) repository.findAll();
+	}
+	
+	// REST book by ID 
+	@RequestMapping(value="/book/{id}", method = RequestMethod.GET)
+	public @ResponseBody Optional<Book> findBookRest(@PathVariable("id") Long book_id) {
+		return repository.findById(book_id);
 	}
 
 }
